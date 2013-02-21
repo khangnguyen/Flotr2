@@ -5075,10 +5075,9 @@ Flotr.addType('points', {
       if (y === null) continue;
 
       x = xScale(data[i][0]);
-      y = yScale(y);
-      y += (stack.values[i] || 0);
-      stack.values[i+1] = y;
-
+      stack1 = stack.values[i] || 0;
+      y = yScale(y + stack1);
+      stack.values[i] = data[i][1] + stack1;
       if (x < 0 || x > options.width || y < 0 || y > options.height) continue;
       
       context.beginPath();
