@@ -5027,7 +5027,12 @@ Flotr.addType('points', {
     fill: true,            // => true to fill the points with a color, false for (transparent) no fill
     fillColor: '#FFFFFF',  // => fill color.  Null to use series color.
     fillOpacity: 1,        // => opacity of color inside the points
-    hitRadius: null        // => override for points hit radius
+    hitRadius: null,       // => override for points hit radius
+    stacked: false         // => setting to true will show stacked points, false will show normal points
+  },
+
+  stack : {
+    values : []
   },
 
   draw : function (options) {
@@ -5062,6 +5067,7 @@ Flotr.addType('points', {
       context = options.context,
       xScale  = options.xScale,
       yScale  = options.yScale,
+      stack   = options.stacked ? this.stack : false,
       i, x, y;
       
     for (i = data.length - 1; i > -1; --i) {
@@ -5070,6 +5076,8 @@ Flotr.addType('points', {
 
       x = xScale(data[i][0]);
       y = yScale(y);
+      y += (stack.values[i] || 0);
+      stack.values[i+1] = y;
 
       if (x < 0 || x > options.width || y < 0 || y > options.height) continue;
       
